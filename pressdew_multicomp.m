@@ -5,8 +5,6 @@ ncomp = size(comp_vap,1);
 pressd = pressdest(comp_vap, temp, pressc, tempc, acentric);
 K = wilsoneq(pressd, temp, pressc, tempc, acentric);
 
-iter = 0;
-
 for loop = 1:maxiter
     
     [f, Knew, pressdnew] = objfun(K, comp_vap, pressd, temp, pressc, tempc, acentric, BIP);
