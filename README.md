@@ -13,8 +13,10 @@ The main functions are as follows.
 - fugcoef_multicomp_liquid.m : return the minimum z-factor if multiple roots are found.
 - fugcoef_multicomp_vapor.m: return the maximum z-factor if multiple roots are found.
 
-(3) Calculate Bubble and dew point pressure. Successive substitution method is used.
-- pressbub_pruecomp.m : bubble point pressure for pure component systems.
-- pressbub_multicomp.m : bubble point pressure for multi-component systems.
-- pressdew_pruecomp.m : dew point pressure for pure component systems.
-- pressdew_multicomp.m : dew point pressure for multi-component systems.
+(3) Calculate Bubble point pressure.
+- pressbub_purecomp_ss.m : For pure component systems. Successive substitution method is used.
+- pressbub_purecomp_newton.m : For pure component systems. Newton method is used.
+- pressbub_multicomp.m : For multi-component systems. Successive substitution method is used.
+
+(4) Calculate Dew point pressure.
+- pressdew_multicomp.m : For multi-component systems. Successive substitution method is used.
