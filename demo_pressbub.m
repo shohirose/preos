@@ -41,7 +41,9 @@ ax = gca;
 ax.XTick = [1:ngas];
 ax.XTickLabel = char(name);
 
-%% DEMO FOR PRESSBUB_MULTICOMP_NEWTON
+%% DEMO FOR PRESSBUB_MULTICOMP
+% Methane - Propane system
+% comp1 = CH4, comp2 = C3H8
 x = [0:0.01:0.70];
 comp_liq = [x; 1 - x];
 pressc1 = [pressc(1); pressc(3)];
