@@ -25,7 +25,9 @@ end
 
 % Echo a message if the loop did not converge.
 if loop >= maxiter
-    fprintf('The iteration in pressbub_multicomp() did not converge.\n');
+    fprintf('The iteration in pressbub_multicomp() did not converge. eps = %E\n', eps);
+else
+    fprintf('Iteration = %d\n', loop);
 end
 
 % Calculate vapor composition.
@@ -48,7 +50,7 @@ end
 
 % Calculate fugacity coefficients in vapor and liquid phase.
 [fugcoef_vap, ~] = fugacitycoef_multicomp_vapor(comp_vap, pressb, temp, pressc, tempc, acentric, BIP);
-[fugcoef_liq, ~] = fugacityCoef_multicomp_liquid(comp_liq, pressb, temp, pressc, tempc, acentric, BIP);
+[fugcoef_liq, ~] = fugacitycoef_multicomp_liquid(comp_liq, pressb, temp, pressc, tempc, acentric, BIP);
 
 % Calculate new K and bubble point pressure.
 fug_vap = zeros(ncomp, 1);
