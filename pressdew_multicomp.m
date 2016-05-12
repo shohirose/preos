@@ -3,7 +3,7 @@ function [pressd, comp_liq] = pressdew_multicomp(comp_vap, temp, pressc, tempc, 
 ncomp = size(comp_vap,1);
 
 % Input initial values.
-pressd = pressdest(comp_vap, temp, pressc, tempc, acentric);
+pressd = pressdewest_multicomp(comp_vap, temp, pressc, tempc, acentric);
 K = wilsoneq(pressd, temp, pressc, tempc, acentric);
 
 for loop = 1:maxiter
