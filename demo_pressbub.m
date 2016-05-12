@@ -47,7 +47,7 @@ ax = gca;
 ax.XTick = [1:ngas];
 ax.XTickLabel = char(name);
 
-%% DEMO FOR PRESSBUB_MULTICOMP
+%% Demo for pressbub_multicomp_newton()
 % Methane - Propane system
 % comp1 = CH4, comp2 = C3H8
 x = [0:0.01:0.67];
@@ -82,7 +82,7 @@ end
 % Plot the result.
 figure;
 plot(x, pressb_calc*1e-6, comp_vap(1,:), pressb_calc*1e-6);
-title('BUBBLE POINT PRESSURE OF CH4-C3H8 SYSTEM AT T = 270 K');
-xlabel('METHANE MOLE FRACTION');
-ylabel('PRESSURE [MPa]');
+title('CH_4-C_3H_8 SYSTEM AT T = 270 K');
+xlabel('Methane Mole Composition');
+ylabel('Pressure [MPa]');
 legend('Bubble point pressure', 'Dew point pressure', 'Location','northwest');
