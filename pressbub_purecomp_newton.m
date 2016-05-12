@@ -30,8 +30,11 @@ for loop = 1:maxiter
     
 end
 
+% Echo a message if the loop did not converge.
 if (loop >= maxiter)
     fprintf('Iterations reached at the maximum limit in pressbub_purecomp_newton().');
+else
+    fprintf('Iteration = %d\n', loop);
 end
 
 end

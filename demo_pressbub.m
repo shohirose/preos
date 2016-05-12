@@ -20,6 +20,7 @@ tol = 1e-6;
 maxiter = 20;
 
 % Calculate bubble point pressure for each component.
+fprintf('Calculating vapor pressure of pure component systems...\n');
 pressb_calc = [];
 for i = 1:ngas;
     if (temp >= tempc)
@@ -34,7 +35,7 @@ end
 figure;
 plot([1:ngas], pressb_calc*1e-6, '-o');
 %legend(char(name));
-title('BUBBLE POINT PRESSURE AT T = 270 K');
+title('VAPOR PRESSURE AT T = 270 K');
 xlabel('GAS COMPONENT');
 ylabel('PRESSURE [MPa]');
 ax = gca;
@@ -55,8 +56,9 @@ maxiter = 2000;
 
 pressb_calc = [];
 comp_vap = [];
+fprintf('Calculating bubble and dew point pressure curves for CH4-C3H8 system...\n');
 for i = 1:size(x,2);
-    % Liquid composition
+    % Composition in liquid phase
     x0 = comp_liq(:,i);
     % Estimate initial bubble ponit pressure
     if i == 1
