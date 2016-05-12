@@ -50,13 +50,14 @@ ax.XTickLabel = char(name);
 %% DEMO FOR PRESSBUB_MULTICOMP
 % Methane - Propane system
 % comp1 = CH4, comp2 = C3H8
-x = [0:0.01:0.70];
+x = [0:0.01:0.67];
 comp_liq = [x; 1 - x];
 pressc1 = [pressc(1); pressc(3)];
 tempc1  = [tempc(1); tempc(3)];
 acentric1 = [acentric(1); acentric(3)];
 BIP = [0, 0.09; 0.09, 0];
 
+tol = 1e-8;
 maxiter = 2000;
 
 pressb_calc = [];
@@ -72,7 +73,7 @@ for i = 1:size(x,2);
         press_ini = pressb;
     end
     % Calculate bubble point pressure
-    [pressb, y] = pressbub_multicomp(x0, press_ini, temp, pressc1, tempc1, acentric1, BIP, tol, maxiter);
+    [pressb, y] = pressbub_multicomp_newton(x0, press_ini, temp, pressc1, tempc1, acentric1, BIP, tol, maxiter);
     % Save the values.
     pressb_calc = cat(2, pressb_calc, pressb);
     comp_vap = cat(2, comp_vap, y);
