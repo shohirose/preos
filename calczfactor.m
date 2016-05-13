@@ -1,3 +1,7 @@
+%% Z-factor calculation for Peng-Robinson EOS
+% For PR-EOS, z-factor is calculated as the real roots of
+% $Z^3 + (B-1)Z^2 + (A-2B-3B^2)Z - (AB-B^2-B^3) = 0$
+
 function zfactor = calczfactor(a, b)
 
 % Calculate the coefficients of cubic equation.
