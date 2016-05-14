@@ -1,5 +1,7 @@
 %% Calculate phase mole fraction by solving Rachford-Rice equation
 
+% This function relies on newton.m in optimization repository.
+
 function phasefrac = phasefraction(K, comp_overall, tol, maxiter)
 
 % Calculate the initial estimate of phase mole fraction.
