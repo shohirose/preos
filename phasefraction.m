@@ -2,7 +2,7 @@
 
 % This function relies on newton.m in optimization repository.
 
-function [phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter)
+function phasefrac = phasefraction(K, comp_overall, tol, maxiter)
 
 % Calculate the initial estimate of phase mole fraction.
 phasefrac = phasefracest(K, comp_overall);
@@ -18,8 +18,6 @@ hessian = @(x) hessianfun(K, comp_overall, x);
 
 phasefrac = newton(fun, grad, hessian, phasefrac, tol, maxiter);
 
-comp = calccomp(K, comp_overall, phasefrac);
-
 end
 
 %% Calculate variables.
@@ -31,22 +29,6 @@ nphase = size(phasefrac,1);  % the number of phases.
 ncomp = size(K,1);         % the number of components.
 Ktemp = ones(ncomp, nphase) - K;
 t = ones(ncomp,1) - Ktemp*phasefrac;
-
-end
-
-function comp = calccomp(K, comp_overall, phasefrac)
-
-ncomp = size(K, 1);
-nphase = size(phasefrac, 1) + 1;
-t = calct(K, phasefrac);
-
-comp = zeros(ncomp, nphase)
-for i = 1:ncomp
-    comp(i, nphase) = comp_overall(i)/t(i);
-    for j = 1:nphase-1
-        comp(i, j) = K(i, j)*comp(i, nphase);
-    end
-end
 
 end
 

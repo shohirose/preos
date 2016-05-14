@@ -23,4 +23,4 @@ K = [
 tol = 1e-6;
 maxiter = 20;
 
-[phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter);
+phasefrac = phasefraction(K, comp_overall, tol, maxiter);
