@@ -51,6 +51,7 @@ for iter = 1:maxiter
 end
 
 if iter >= maxiter
+    fprintf('The iteration in checkphasesplit() did not converge.\n');
 %     fprintf('P = %1.3e, T = %4.2f, ', press, temp);
 %     % plot comp_check
 %     fprintf('comp_check = [ ');
