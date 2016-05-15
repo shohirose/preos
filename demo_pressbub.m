@@ -49,11 +49,11 @@ ax = gca;
 ax.XTick = [1:ngas];
 ax.XTickLabel = char(name);
 
-%% Demo for pressbub_multicomp_newton()
+%% Demo for pressbub_multicomp_newton() and pressdew_multicomp_newton()
 % Methane - Propane system
 % comp1 = CH4, comp2 = C3H8
-x = [0:0.01:0.67];
-comp_liq = [x; 1 - x];
+x = [0:0.01:0.65];
+comp = [x; 1 - x];
 pressc1 = [pressc(1); pressc(3)];
 tempc1  = [tempc(1); tempc(3)];
 acentric1 = [acentric(1); acentric(3)];
@@ -62,29 +62,57 @@ BIP = [0, 0.09; 0.09, 0];
 tol = 1e-8;
 maxiter = 2000;
 
-pressb_calc = [];
-comp_vap = [];
+ndata = size(x, 2);
+comp1 = zeros(ndata, 4);
+press_calc = zeros(ndata, 4);
+
 fprintf('Calculating bubble and dew point pressure curves for CH4-C3H8 system...\n');
-for i = 1:size(x,2);
+
+for i = 1:ndata
+    
     % Composition in liquid phase
-    x0 = comp_liq(:,i);
+    x0 = comp(:,i);
+    
     % Estimate initial bubble ponit pressure
     if i == 1
-        press_ini = pressbubest_multicomp(x0, temp, pressc1, tempc1, acentric1);
+        pressb_ini = pressbubest_multicomp(x0, temp, pressc1, tempc1, acentric1);
+        pressd_ini = pressdewest_multicomp(x0, temp, pressc1, tempc1, acentric1);
     else
-        press_ini = pressb;
+        pressb_ini = pressb;
+        pressd_ini = pressd;
     end
-    % Calculate bubble point pressure
-    [pressb, y] = pressbub_multicomp_newton(x0, press_ini, temp, pressc1, tempc1, acentric1, BIP, tol, maxiter);
+    
+    % Calculate bubble and dew point pressure
+    [pressb, yb] = pressbub_multicomp_newton(x0, pressb_ini, temp, pressc1, tempc1, acentric1, BIP, tol, maxiter);
+    [pressd, yd] = pressdew_multicomp_newton(x0, pressd_ini, temp, pressc1, tempc1, acentric1, BIP, tol, maxiter);
+    
     % Save the values.
-    pressb_calc = cat(2, pressb_calc, pressb);
-    comp_vap = cat(2, comp_vap, y);
+    press_calc(i, 1) = pressb;
+    press_calc(i, 2) = pressb;
+    press_calc(i, 3) = pressd;
+    press_calc(i, 4) = pressd;
+    
+    comp1(i, 1) = x0(1);
+    comp1(i, 2) = yb(1);
+    comp1(i, 3) = yd(1);
+    comp1(i, 4) = x0(1);
+    
 end
 
 % Plot the result.
 figure;
-plot(x, pressb_calc*1e-6, comp_vap(1,:), pressb_calc*1e-6);
+subplot(1,2,1);
+plot(comp1(:,1:2), press_calc(:,1:2)*1e-6);
 title('CH_4-C_3H_8 SYSTEM AT T = 270 K');
 xlabel('Methane Mole Composition');
 ylabel('Pressure [MPa]');
-legend('Bubble point pressure', 'Dew point pressure', 'Location','northwest');
+legend('Pb (pressbub)', 'Pd (pressbub)', 'Location','northwest');
+axis([0,1,0,12]);
+
+subplot(1,2,2);
+plot(comp1(:,3:4), press_calc(:,3:4)*1e-6);
+title('CH_4-C_3H_8 SYSTEM AT T = 270 K');
+xlabel('Methane Mole Composition');
+ylabel('Pressure [MPa]');
+legend('Pb (pressdew)', 'Pd (pressdew)', 'Location','northwest');
+axis([0,1,0,12]);
