@@ -30,8 +30,9 @@ end
 function f = objfun(K, comp_overall, press, temp, pressc, tempc, acentric, BIP)
 
 ncomp = size(comp_overall, 1);
-
-[~, comp] = phasefraction(K, comp_overall, tol, maxiter);
+tol = 1e-8;
+maxiter = 20;
+[phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter);
 comp_vap = comp(:, 1);
 comp_liq = comp(:, 2);
 
@@ -39,11 +40,11 @@ comp_liq = comp(:, 2);
 [fugcoef_vap, ~] = fugacitycoef_multicomp_vapor(comp_vap, press, temp, pressc, tempc, acentric, BIP);
 
 f = zeros(ncomp, 1);
-for i = 1:(ncomp - 1)
+for i = 1:ncomp
     f(i) = K(i) - fugcoef_liq(i)/fugcoef_vap(i);
 end
 
-f(ncomp) = sum(comp_vap) - 1;
+%f(ncomp) = sum(comp_vap) - 1;
 
 end
 
@@ -60,7 +61,7 @@ J = zeros(ncomp, ncomp);
 
 for i = 1:ncomp
         
-    dK = zeros(NC, 1);
+    dK = zeros(ncomp, 1);
     dK(i) = perturb_K;
     K1 = K + dK;
     
