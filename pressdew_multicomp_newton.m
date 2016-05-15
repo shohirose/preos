@@ -1,9 +1,10 @@
-function [pressd, comp_liq] = pressdew_multicomp(comp_vap, temp, pressc, tempc, acentric, BIP, tol, maxiter)
+function [pressd, comp_liq] = pressdew_multicomp(comp_vap, pressd_ini, temp, pressc, tempc, acentric, BIP, tol, maxiter)
 
 ncomp = size(comp_vap,1);
 
 % Input initial values.
-pressd = pressdewest_multicomp(comp_vap, temp, pressc, tempc, acentric);
+%pressd = pressdewest_multicomp(comp_vap, temp, pressc, tempc, acentric);
+pressd = pressd_ini;
 K = wilsoneq(pressd, temp, pressc, tempc, acentric);
 K = updatek(K, comp_vap, pressd, temp, pressc, tempc, acentric, BIP);
 
@@ -35,7 +36,7 @@ if loop >= maxiter
 else
     fprintf('iter = %d, objfun = [ ', loop);
     for i = 1:ncomp+1
-        fprintf('%1.3e ', f);
+        fprintf('%1.3e ', f(i));
     end
     fprintf(']\n');
 end
