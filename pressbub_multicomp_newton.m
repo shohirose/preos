@@ -6,6 +6,7 @@ ncomp = size(comp_liq,1);
 %pressb = pressbubest_multicomp(comp_liq, temp, pressc, tempc, acentric);
 pressb = pressb_ini;
 K = wilsoneq(pressb, temp, pressc, tempc, acentric);
+K = updatekss(K, comp_liq, pressb, temp, pressc, tempc, acentric, BIP);
 
 % m : model parameters
 fun = @(m) objfun(m(1:ncomp, 1), comp_liq, m(ncomp + 1, 1), temp, pressc, tempc, acentric, BIP);
@@ -16,23 +17,11 @@ for loop = 1:maxiter
     
     % Calculate update direction by using Newton-Raphson method.
     f = fun(x);
-    dx = 0;
-    if loop <= 2
-        % update only K by using successive substitution.
-        K = updatek(x);
-        x(1:ncomp, 1) = K;
-    else
-        J = jacob(f, x, fun);
-        %dx = bicg(J, -f, 1e-10, 20);
-        dx = -J\f;
-    end
-    
-    % linesearch
-    s = 1;
-    %s = linesearch(fun, x, dx);
+    J = jacob(f, x, fun);
+    dx = -J\f;
     
     % Update x.
-    x = x + s*dx;
+    x = x + dx;
     
     % Check convergence.
     eps = abs(max(f));
@@ -58,7 +47,15 @@ K = x(1:ncomp, 1);
 pressb = x(ncomp + 1, 1);
 
 % Calculate vapor composition.
-comp_vap = zeros(ncomp,1);
+comp_vap = calccompvap(K, comp_liq);
+
+end
+
+function comp_vap = calccompvap(K, comp_liq)
+
+ncomp = size(comp_liq, 1);
+
+comp_vap = zeros(ncomp, 1);
 for i = 1:ncomp
     comp_vap(i) = K(i)*comp_liq(i);
 end
@@ -71,10 +68,7 @@ function K = updatekss(K, comp_liq, pressb, temp, pressc, tempc, acentric, BIP)
 ncomp = size(K,1);
 
 % Calculate vapor composition.
-comp_vap = zeros(ncomp,1);
-for i = 1:ncomp
-    comp_vap(i) = K(i)*comp_liq(i);
-end
+comp_vap = calccompvap(K, comp_liq);
 
 % Calculate fugacity coefficients in vapor and liquid phase.
 [fugcoef_vap, ~] = fugacitycoef_multicomp_vapor(comp_vap, pressb, temp, pressc, tempc, acentric, BIP);
@@ -96,10 +90,7 @@ function f = objfun(K, comp_liq, pressb, temp, pressc, tempc, acentric, BIP)
 ncomp = size(K,1);
 
 % Calculate vapor composition.
-comp_vap = zeros(ncomp,1);
-for i = 1:ncomp
-    comp_vap(i) = K(i)*comp_liq(i);
-end
+comp_vap = calccompvap(K, comp_liq);
 
 % Calculate fugacity coefficients in vapor and liquid phase.
 [fugcoef_vap, ~] = fugacitycoef_multicomp_vapor(comp_vap, pressb, temp, pressc, tempc, acentric, BIP);
@@ -125,45 +116,5 @@ for i = 1:N
     dx(i) = perturb_x;
     f1 = fun(x + dx);
     J(:, i) = (f1 - f0)/perturb_x;
-end
-end
-
-%% Linesearch method
-function s = linesearch(fun, x, dx)
-s = 1;
-perturbs = 1e-6;
-itermax = 10;
-for loop = 1:itermax
-    
-    f0 = fun(x + s*dx);
-    fp = fun(x + (s + perturbs)*dx);
-    fm = fun(x + (s - perturbs)*dx);
-    
-    if max(abs(f0)) < 1e-6
-        break;
-    end
-    
-    g0 = norm(f0);
-    gp = norm(fp);
-    gm = norm(fm);
-    
-    dgds = (gp - gm)/perturbs;
-    dgds2 = (gp - 2*g0 + gm)/perturbs^2;
-    
-    ds = 0;
-    if dgds2 == 0
-        break;
-    else
-        ds = -dgds/dgds2;
-    end
-    
-    if ds >= 0
-        break;
-    elseif (s + ds) < 0
-        s = 0.5*s;
-    else
-        s = s + ds;
-    end
-    
 end
 end
