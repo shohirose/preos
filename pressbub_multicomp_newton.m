@@ -44,9 +44,9 @@ end
 
 % Echo a message if the loop did not converge.
 if loop >= maxiter
-    fprintf('The iteration in pressbub_multicomp() did not converge. eps = %E\n', eps);
+    fprintf('The iteration in pressbub_multicomp_newton() did not converge: eps = %e\n', eps);
 else
-    fprintf('Iteration = %d, Objective Function f = [ ', loop);
+    fprintf('iter = %d, objfun = [ ', loop);
     for i = 1:ncomp+1
         fprintf('%1.3e ', f(i));
     end
