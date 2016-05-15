@@ -25,13 +25,15 @@ maxiter = 20;
 fprintf('Calculating vapor pressure of pure component systems...\n');
 pressb_calc = [];
 for i = 1:ngas;
-    if (temp >= tempc)
-        error('Gas %s has no bubble point at the temperature %f.\\n', name(i), temp);
+    if (temp >= tempc(i))
+        fprintf('Gas %s has no bubble point at the temperature %4.2f.\\n', char(name(i)), temp);
+        pressb = 0;
+    else
+        % Calculate the initial estimate of bubble point pressure.
+        pressb_int = pressbubest_purecomp(pressc(i), tempc(i), acentric(i), temp);
+        % Calculate bubble point pressure.
+        pressb = pressbub_purecomp_newton(pressb_int, temp, pressc(i), tempc(i), acentric(i), tol, maxiter);
     end
-    % Calculate the initial estimate of bubble point pressure.
-    pressb_int = pressbubest_purecomp(pressc(i), tempc(i), acentric(i), temp);
-    % Calculate bubble point pressure.
-    pressb = pressbub_purecomp_newton(pressb_int, temp, pressc(i), tempc(i), acentric(i), tol, maxiter);
     % Store the calculated value.
     pressb_calc = cat(1, pressb_calc, pressb);
 end
