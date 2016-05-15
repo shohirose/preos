@@ -30,9 +30,9 @@ end
 function f = objfun(K, comp_overall, press, temp, pressc, tempc, acentric, BIP)
 
 ncomp = size(comp_overall, 1);
-tol = 1e-8;
+tol = 1e-5;
 maxiter = 20;
-[phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter);
+[~, comp] = phasefraction(K, comp_overall, tol, maxiter);
 comp_vap = comp(:, 1);
 comp_liq = comp(:, 2);
 
