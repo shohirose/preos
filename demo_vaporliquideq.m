@@ -46,23 +46,23 @@ legend('x_{CH_4}^V', 'x_{CH_4}^L', 'n_V','Orientation', 'horizontal');
 press = pressdew*0.8;
 phasesplit = tpdss(comp_overall, press, temp, pressc, tempc, acentric, BIP);
 if phasesplit == true
-    fprintf('V and L phase exist at P = %1.3f\n', press*1e-6);
+    fprintf('V and L phase exist at P = %1.3f MPa\n', press*1e-6);
 else
-    fprintf('Either V or L phase coexists at P = %1.3f\n', press*1e-6);
+    fprintf('Either V or L phase coexists at P = %1.3f MPa\n', press*1e-6);
 end
 
 press = (pressdew + pressbub)*0.5;
 phasesplit = tpdss(comp_overall, press, temp, pressc, tempc, acentric, BIP);
 if phasesplit == true
-    fprintf('V and L phase exist at P = %1.3f\n', press*1e-6);
+    fprintf('V and L phase exist at P = %1.3f MPa\n', press*1e-6);
 else
-    fprintf('Either V or L phase coexists at P = %1.3f\n', press*1e-6);
+    fprintf('Either V or L phase coexists at P = %1.3f MPa\n', press*1e-6);
 end
 
 press = pressbub*1.2;
 phasesplit = tpdss(comp_overall, press, temp, pressc, tempc, acentric, BIP);
 if phasesplit == true
-    fprintf('V and L phase exist at P = %1.3f\n', press*1e-6);
+    fprintf('V and L phase exist at P = %1.3f MPa\n', press*1e-6);
 else
-    fprintf('Either V or L phase coexists at P = %1.3f\n', press*1e-6);
+    fprintf('Either V or L phase coexists at P = %1.3f MPa\n', press*1e-6);
 end
