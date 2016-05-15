@@ -60,7 +60,7 @@ acentric1 = [acentric(1); acentric(3)];
 BIP = [0, 0.09; 0.09, 0];
 
 tol = 1e-8;
-maxiter = 2000;
+maxiter = 50;
 
 ndata = size(x, 2);
 comp1 = zeros(ndata, 4);
