@@ -32,7 +32,7 @@ maxiter = 20;
 for iter = 1:maxiter
     
     xsum = sum(x);
-    %x = x/xsum;
+    x = x/xsum;
     
     if max(abs(x - comp_overall)) < tol
         phasesplit = false;
