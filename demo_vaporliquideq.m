@@ -22,12 +22,12 @@ pressdew_ini = pressdewest_multicomp(comp_overall, temp, pressc, tempc, acentric
 [pressbub, ~] = pressbub_multicomp_newton(comp_overall, pressbub_ini, temp, pressc, tempc, acentric, BIP, tol, maxiter);
 [pressdew, ~] = pressdew_multicomp_newton(comp_overall, pressdew_ini, temp, pressc, tempc, acentric, BIP, tol, maxiter);
 
-N = 10;
+N = 41;
 data = zeros(N, 4);
 
 for i = 1:N
-    press = pressdew + (pressbub - pressdew)*i/N;
-    [K, comp_vap, comp_liq, phasefrac] = vaporliquideq(press, temp, comp_overall, pressc, tempc, acentric, BIP, tol, maxiter)
+    press = pressdew + (pressbub - pressdew)*(i - 1)/(N - 1);
+    [K, comp_vap, comp_liq, phasefrac] = vaporliquideq(press, temp, comp_overall, pressc, tempc, acentric, BIP, tol, maxiter);
     data(i, 1) = press;
     data(i, 2) = comp_vap(1);
     data(i, 3) = comp_liq(1);
@@ -37,5 +37,6 @@ end
 figure;
 plot(data(:,1)*1e-6, data(:,2:4));
 xlabel('Pressure [MPa]');
-ylabel('\beta, x_{CH_4}, y_{CH_4}');
+ylabel('n_V, x_{CH_4}^V, x_{CH_4}^L');
 axis([-Inf,Inf,0,1]);
+legend('x_{CH_4}^V', 'x_{CH_4}^L', 'n_V','Orientation', 'horizontal');
