@@ -31,7 +31,15 @@ else
 end
 
 % Calculate vapor composition.
-comp_vap = zeros(ncomp,1);
+comp_vap = calccompvap(K, comp_liq);
+
+end
+
+function comp_vap = calccompvap(K, comp_liq)
+
+ncomp = size(comp_liq, 1);
+
+comp_vap = zeros(ncomp, 1);
 for i = 1:ncomp
     comp_vap(i) = K(i)*comp_liq(i);
 end
@@ -43,10 +51,7 @@ function [f, Knew, pressbnew] = objfun(K, comp_liq, pressb, temp, pressc, tempc,
 ncomp = size(K,1);
 
 % Calculate vapor composition.
-comp_vap = zeros(ncomp,1);
-for i = 1:ncomp
-    comp_vap(i) = K(i)*comp_liq(i);
-end
+comp_vap = calccompvap(K, comp_liq);
 
 % Calculate fugacity coefficients in vapor and liquid phase.
 [fugcoef_vap, ~] = fugacitycoef_multicomp_vapor(comp_vap, pressb, temp, pressc, tempc, acentric, BIP);
