@@ -40,7 +40,7 @@ ncomp = size(K, 1);
 nphase = size(phasefrac, 1) + 1;
 t = calct(K, phasefrac);
 
-comp = zeros(ncomp, nphase)
+comp = zeros(ncomp, nphase);
 for i = 1:ncomp
     comp(i, nphase) = comp_overall(i)/t(i);
     for j = 1:nphase-1
