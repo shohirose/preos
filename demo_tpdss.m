@@ -76,3 +76,4 @@ subplot(1,2,2);
 plot(vdata(:,2), pdata*1e-6);
 ylabel('Pressure [MPa]');
 xlabel('Vapor Phase Mole Fraction');
+axis([0,1,0,Inf]);

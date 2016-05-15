@@ -24,6 +24,7 @@ function phasesplit = checkphasesplit(comp_check, comp_overall, press, temp, pre
 
 [fugcoef_overall, ~] = fugacitycoef_multicomp(comp_overall, press, temp, pressc, tempc, acentric, BIP);
 
+ncomp = size(comp_overall, 1);
 x = comp_check;
 tol = 1e-6;
 eps = 1;
@@ -50,7 +51,19 @@ for iter = 1:maxiter
 end
 
 if iter >= maxiter
-    fprintf('The iteration in checkphasesplit did not converge.\n');
+%     fprintf('P = %1.3e, T = %4.2f, ', press, temp);
+%     % plot comp_check
+%     fprintf('comp_check = [ ');
+%     for i = 1:ncomp
+%         fprintf('%1.3f ', comp_check(i));
+%     end
+%     fprintf('], ');
+%     % plot x
+%     fprintf('x = [ ');
+%     for i = 1:ncomp
+%         fprintf('%1.3f ', x(i));
+%     end
+%     fprintf(']\n');
 end
 
 if xsum > 1
