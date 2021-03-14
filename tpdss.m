@@ -1,17 +1,25 @@
 %% Tangend Plane Distance analysis by using successive substitution
-
-function twophase = tpdss(comp_overall, press, temp, pressc, tempc, acentric, BIP)
+%
+% twophase : 
+% comp_overall : Overall composition
+% press        : Pressure
+% temp         : Temperature
+% pressc       : Critical pressure
+% tempc        : Critical temperature
+% accentric    : Accentric factor
+% BIP          : Binary interaction parameters
+function twophase = tpdss(comp_overall, press, temp, pressc, tempc, accentric, BIP)
 
 % The initial estimate of equilibrium constant
-K = wilsoneq(press, temp, pressc, tempc, acentric);
+K = wilsoneq(press, temp, pressc, tempc, accentric);
 
 % Vapor-like phase
 comp_vap = compvapest(K, comp_overall);
-vaporphase = checkphasesplit(comp_vap, comp_overall, press, temp, pressc, tempc, acentric, BIP);
+vaporphase = checkphasesplit(comp_vap, comp_overall, press, temp, pressc, tempc, accentric, BIP);
 
 % Liquid-like phase
 comp_liq = compliqest(K, comp_overall);
-liquidphase = checkphasesplit(comp_liq, comp_overall, press, temp, pressc, tempc, acentric, BIP);
+liquidphase = checkphasesplit(comp_liq, comp_overall, press, temp, pressc, tempc, accentric, BIP);
 
 if (vaporphase == true) || (liquidphase == true)
     twophase = true;
@@ -20,9 +28,9 @@ else
 end
 end
 
-function phasesplit = checkphasesplit(comp_check, comp_overall, press, temp, pressc, tempc, acentric, BIP)
+function phasesplit = checkphasesplit(comp_check, comp_overall, press, temp, pressc, tempc, accentric, BIP)
 
-[fugcoef_overall, ~] = fugacitycoef_multicomp(comp_overall, press, temp, pressc, tempc, acentric, BIP);
+[fugcoef_overall, ~] = fugacitycoef_multicomp(comp_overall, press, temp, pressc, tempc, accentric, BIP);
 
 ncomp = size(comp_overall, 1);
 x = comp_check;
@@ -44,14 +52,14 @@ for iter = 1:maxiter
         break;
     end
     
-    [fugcoef_x, ~] = fugacitycoef_multicomp(x, press, temp, pressc, tempc, acentric, BIP);
+    [fugcoef_x, ~] = fugacitycoef_multicomp(x, press, temp, pressc, tempc, accentric, BIP);
     eps = calcrsd(x, fugcoef_x, comp_overall, fugcoef_overall);
     x = updatex(comp_overall, fugcoef_overall, fugcoef_x);
     
 end
 
 if iter >= maxiter
-    fprintf('The iteration in checkphasesplit() did not converge.\n');
+    fprintf('The iteration in checkphasesplit() did not converge. One phase is assumed.\n');
 %     fprintf('P = %1.3e, T = %4.2f, ', press, temp);
 %     % plot comp_check
 %     fprintf('comp_check = [ ');
