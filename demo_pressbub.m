@@ -45,9 +45,9 @@ plot([1:ngas], pressb_calc*1e-6, '-o');
 title('VAPOR PRESSURE AT T = 270 K');
 xlabel('GAS COMPONENT');
 ylabel('PRESSURE [MPa]');
-ax = gca;
-ax.XTick = [1:ngas];
-ax.XTickLabel = char(name);
+%ax = gca;
+%ax.XTick = [1:ngas];
+%ax.XTickLabel = char(name);
 
 %% Demo for pressbub_multicomp_newton() and pressdew_multicomp_newton()
 % Methane - Propane system

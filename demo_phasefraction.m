@@ -27,3 +27,6 @@ tol = 1e-6;
 maxiter = 20;
 
 [phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter);
+
+disp("phasefrac is:"), disp(phasefrac);
+disp("comp is:"), disp(comp);
