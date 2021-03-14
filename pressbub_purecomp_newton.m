@@ -1,4 +1,14 @@
 %% CALCULATE BUBBLE POINT PRESSURE BY USING SUCCESSIVE SUBSTITUTION
+%% for pure components
+%
+% pressb     : bubble point pressure
+% pressb_ini : Initial estimate of bubble point pressure
+% temp       : Temperature
+% pressc     : Critical pressure
+% tempc      : Critical temperature
+% acentric   : Accentric factor
+% tol        : Iteraction tolerance
+% maxiter    : Maximum number of iterations
 function pressb = pressbub_purecomp_newton(pressb_ini, temp, pressc, tempc, acentric, tol, maxiter)
 
 %pressb = pressbubest_purecomp(pressc, tempc, acentric, temp);
