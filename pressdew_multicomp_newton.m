@@ -1,4 +1,17 @@
-function [pressd, comp_liq] = pressdew_multicomp(comp_vap, pressd_ini, temp, pressc, tempc, acentric, BIP, tol, maxiter)
+%% Computes dew point pressure in a multi-component system
+%
+% pressd     : Dewpoint pressure
+% comp_liq   : Liquid composition
+% comp_vap   : Vapor composition
+% pressd_ini : Initial estimate of vapor pressure
+% temp       : Temperature
+% pressc     : Critical pressure
+% tempc      : Critical temperature
+% acentric   : Accentric factor
+% BIP        : Binary interaction parameters
+% tol        : Iteraction tolerance
+% maxiter    : Maximum number of iterations
+function [pressd, comp_liq] = pressdew_multicomp_newton(comp_vap, pressd_ini, temp, pressc, tempc, acentric, BIP, tol, maxiter)
 
 ncomp = size(comp_vap,1);
 

@@ -1,7 +1,11 @@
 %% Calculate phase mole fraction by solving Rachford-Rice equation
-
-% This function relies on newton.m in optimization repository.
-
+%
+% phasefrac    : Phase fraction
+% comp         : Phase composition
+% K            : K values or equilibrium ratios
+% comp_overall : Overall composition
+% tol          : Iteration tolerance
+% maxiter      : Maximum number of iterations
 function [phasefrac, comp] = phasefraction(K, comp_overall, tol, maxiter)
 
 % Calculate the initial estimate of phase mole fraction.
