@@ -18,5 +18,5 @@ function x = newton(fun, grad, hessian, x0, tol, maxiter)
     x = x + dx;
     eps = norm(dx);
     iter = iter + 1;
-  endwhile
+  end
 end
